@@ -9,7 +9,6 @@ import {
   Header,
   Navigation,
   Footer,
-  Preloader,
 } from 'components/SharedLayout/SharedLayout.styled';
 import { LineWave } from 'react-loader-spinner';
 
