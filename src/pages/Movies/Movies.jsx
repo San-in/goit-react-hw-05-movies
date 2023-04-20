@@ -1,42 +1,38 @@
 import { useEffect, useState } from 'react';
-import { useLocation, useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 
 import { fetchListOfFilms } from 'helpers/api';
 import ListOfFilms from 'components/ListOfFilms/ListOfFilms';
 import { AlternativeMessage } from 'components/ListOfFilms/ListOfFilms.styled';
 import SearchForm from 'components/SearchForm/SearchForm';
+import { toast } from 'react-toastify';
 
 const Movies = () => {
-  const [searchValue, setSearchValue] = useState('');
   const [searchedMovies, setSearchedMovies] = useState([]);
   const [filteredValue, setFilteredValue] = useState('');
   const [filteredMovies, setFilteredMovies] = useState([]);
 
   const [searchParams, setSearchParams] = useSearchParams();
-  const location = useLocation();
+  const query = searchParams.get('query');
 
   const onSearch = e => {
     e.preventDefault();
-    setSearchValue(e.target.input.value);
+    setSearchParams({ query: e.target.input.value.trim().toLowerCase() });
   };
 
   const onFilter = filterValue => {
     setFilteredValue(filterValue);
   };
   useEffect(() => {
-    if (searchValue) {
-      setSearchParams({ query: searchValue });
-    }
-    const query = searchParams.get('query');
     if (query) {
       fetchListOfFilms(`/search/movie?query=${query}`).then(response => {
-        // if (!response.length) {
-        //   toast('We can not find the film');
-        // }
+        if (!response.length) {
+          toast('We can not find the film');
+        }
         setSearchedMovies(response);
       });
     }
-  }, [searchParams, searchValue, setSearchParams]);
+  }, [query]);
 
   useEffect(() => {
     if (searchedMovies.length) {
@@ -52,7 +48,7 @@ const Movies = () => {
   return (
     <>
       <SearchForm onSearch={onSearch} onFilter={onFilter} />
-      <ListOfFilms location={location} arrayOfFilms={filteredMovies} />
+      <ListOfFilms arrayOfFilms={filteredMovies} />
       {!filteredMovies.length && (
         <AlternativeMessage>
           Search result will be displayed here

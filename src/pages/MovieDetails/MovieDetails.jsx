@@ -1,4 +1,4 @@
-import { Outlet, useLocation, useParams } from 'react-router-dom';
+import { Outlet, useParams } from 'react-router-dom';
 import { fetchMovieDetails } from 'helpers/api';
 import { useEffect, useState } from 'react';
 import NotFound from 'pages/NotFound/NotFound';
@@ -8,7 +8,6 @@ import AdditionalInformation from 'components/AdditionalInformation/AdditionalIn
 const MovieDetails = () => {
   const [movieDetails, setMovieDetails] = useState(null);
   const [isNotFoundShown, setIsNotFoundShown] = useState(false);
-  const location = useLocation();
 
   const { movieId } = useParams();
   useEffect(() => {
@@ -24,8 +23,7 @@ const MovieDetails = () => {
   if (movieDetails) {
     return (
       <>
-        <CardOfFilm movieDetails={movieDetails} location={location} />
-
+        <CardOfFilm movieDetails={movieDetails} />
         <AdditionalInformation />
         <Outlet />
       </>

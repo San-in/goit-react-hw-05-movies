@@ -4,8 +4,10 @@ import {
   StyledLink,
   StyledList,
 } from 'components/ListOfFilms/ListOfFilms.styled';
+import { useLocation } from 'react-router-dom';
 
-const ListOfFilms = ({ arrayOfFilms, location }) => {
+const ListOfFilms = ({ arrayOfFilms }) => {
+  const location = useLocation();
   return (
     <StyledList>
       {arrayOfFilms.map(({ id, title }) => (
@@ -26,13 +28,6 @@ ListOfFilms.propTypes = {
       id: PropTypes.number.isRequired,
     })
   ).isRequired,
-  location: PropTypes.exact({
-    hash: PropTypes.string.isRequired,
-    key: PropTypes.string.isRequired,
-    pathname: PropTypes.string.isRequired,
-    search: PropTypes.string.isRequired,
-    state: PropTypes.object,
-  }).isRequired,
 };
 
 export default ListOfFilms;

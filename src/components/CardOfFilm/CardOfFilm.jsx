@@ -8,8 +8,10 @@ import {
   CardTitle,
   StyledParagraph,
 } from 'components/CardOfFilm/CardOfFilm.styled';
+import { useLocation } from 'react-router-dom';
 
-const CardOfFilm = ({ movieDetails, location }) => {
+const CardOfFilm = ({ movieDetails }) => {
+  const location = useLocation();
   const { img, title, data, scores, overview, genres } = movieDetails;
   const backdropRef = location.state?.from ?? '/';
   return (
@@ -48,13 +50,6 @@ CardOfFilm.propTypes = {
     overview: PropTypes.string.isRequired,
     genres: PropTypes.string.isRequired,
     id: PropTypes.number.isRequired,
-  }).isRequired,
-  location: PropTypes.exact({
-    hash: PropTypes.string.isRequired,
-    key: PropTypes.string.isRequired,
-    pathname: PropTypes.string.isRequired,
-    search: PropTypes.string.isRequired,
-    state: PropTypes.object,
   }).isRequired,
 };
 
